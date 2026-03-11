@@ -1,0 +1,26 @@
+import java.io.*;
+import java.util.*;
+
+public class Anagrams {
+    
+    public static void main(String[] args) {
+        
+        // Creating a dictionary/hashmap to store anagrams
+        Map<String, List<String>> anagramMap = new HashMap<>();
+        
+        try {
+            // Read the file
+            BufferedReader reader = new BufferedReader(new FileReader("ulysses.text"));
+            String line;
+            
+            // Process each line in the file
+            while ((line = reader.readLine()) != null) {
+                // Split line into words
+                String[] words = line.split("\\s+");
+                
+                for (String word : words) {
+                    // Clean and process each word
+                    processWord(word, anagramMap);
+                }
+            }
+            reader.close();
