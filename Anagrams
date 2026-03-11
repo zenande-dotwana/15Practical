@@ -24,3 +24,43 @@ public class Anagrams {
                 }
             }
             reader.close();
+
+            // Print anagrams to the console
+            printAnagrams(anagramMap);
+            
+            // Generate LaTeX file
+            generateLatexFile(anagramMap);
+            
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: ulysses.text file not found!");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("Error reading file!");
+            e.printStackTrace();
+        }
+    }
+    
+    private static void processWord(String word, Map<String, List<String>> anagramMap) {
+        // Clean the word - remove all punctuation but keep apostrophes
+        String cleaned = cleanWord(word);
+        
+        if (cleaned.length() > 0) {
+            // Convert the cleaned word to lowercase
+            cleaned = cleaned.toLowerCase();
+            
+            // Create signature (alphabetized version)
+            String signature = alphabetize(cleaned);
+            
+            // Add to the map
+            if (!anagramMap.containsKey(signature)) {
+                List<String> wordList = new ArrayList<>();
+                wordList.add(cleaned);
+                anagramMap.put(signature, wordList);
+            } else {
+                List<String> wordList = anagramMap.get(signature);
+                if (!wordList.contains(cleaned)) { // Avoid duplicates
+                    wordList.add(cleaned);
+                }
+            }
+        }
+    }
